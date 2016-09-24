@@ -87,9 +87,37 @@ var SearchOut = React.createClass({
 });
 
 var Pagination = React.createClass({
+
+  handleClick: function(i) {
+    var updateResult = function(response, textStatus, jqXHR) {
+      alert(response.Search);
+      this.setState({
+        result:response.Search,
+        pages:parseInt(response.totalResults/10)+1
+      });
+    }.bind(this);
+
+    $.ajax('http://www.omdbapi.com', {
+      method: 'GET',
+      data: {
+        's': this.props.term,
+        'page': i
+      },
+      success: updateResult
+    });
+  },
+
   render: function(){
+    var pages = [];
+    for (var i=0; i < this.props.page; i++) {
+      pages.push(<li onClick={this.handleClick.bind(this, i+1)}>
+        <a>{i+1}</a>
+      </li>);
+    }
     return(
-      <div>{this.props.page}</div>
+        <ul class="pagination">
+        {pages}
+        </ul>
     );
   }
 });
@@ -107,7 +135,7 @@ var Main = React.createClass({
       <div>
         <SearchIn onClick={this.handleResult} />
         <SearchOut results={this.state.result} />
-        <Pagination page={this.state.pages}/>
+        <Pagination page={this.state.pages} term={this.state.term}/>
       </div>
     );
   },
@@ -117,7 +145,8 @@ var Main = React.createClass({
     var updateResult = function(response, textStatus, jqXHR) {
       this.setState({
         result:response.Search,
-        pages:parseInt(response.totalResults/10)+1
+        pages:parseInt(response.totalResults/10)+1,
+        term: term
       });
     }.bind(this);
 
@@ -136,5 +165,4 @@ var Main = React.createClass({
 
 React.render(
   <Main />,
-  document.getElementById('root')
-);
+document.getElementById('root'));

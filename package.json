@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Pagina Web para busca de filmes, utilizando react.",
   "main": "server.js",
+  
   "dependencies": {
     "react": "^15.3.2",
     "body-parser": "^1.4.3",
@@ -13,10 +14,7 @@
     "start": "node server.js"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
+  
   "author": "Anna Goncalves Miguel",
   "license": "ISC"
 }
